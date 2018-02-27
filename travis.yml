@@ -4,5 +4,6 @@ jdk:
   - oraclejdk8
 
 env:
+  - PROJECT_DIR=01-cli
 
 before_install: cd $PROJECT_DIR
