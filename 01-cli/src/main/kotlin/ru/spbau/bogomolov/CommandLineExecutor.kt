@@ -1,16 +1,8 @@
 package ru.spbau.bogomolov
 
 /**
- * Wrapper around ... using console input and output.
+ * Takes string that should be interpreted and returns results of interpretation
  */
-class CommandLineExecutor {
-    fun run(executor: CommandLineInterpretator) {
-        while(true) {
-            val line = readLine() ?: break
-            val result = executor.processString(line)
-            if (result.shouldExit) break
-            println(result.output)
-            System.err.println(result.error)
-        }
-    }
+interface CommandLineExecutor {
+    fun processString(input: String): ExecutionResult
 }

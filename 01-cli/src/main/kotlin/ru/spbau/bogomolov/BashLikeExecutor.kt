@@ -1,7 +1,12 @@
 package ru.spbau.bogomolov
 
-class BashLikeExecutor() : CommandLineInterpretator {
-    override fun processString(string: String): InterpretationResult {
-        return InterpretationResult(false, string, "No errors")
+import ru.spbau.bogomolov.parser.BashLikeParser
+
+class BashLikeExecutor : CommandLineExecutor {
+    override fun processString(input: String): ExecutionResult {
+        val parser = BashLikeParser()
+        val root = parser.parse(input)
+        root.invoke()
+        return ExecutionResult(false, root.getOutput(), root.getErrors())
     }
 }
