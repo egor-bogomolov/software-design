@@ -4,7 +4,7 @@ class BashLikeProducer : CommandProducer {
 
     private val registeredCommandParsers = mutableListOf<(String) -> Command?>()
 
-    fun registerCommandParser(parseCommand: (String) -> Command?) {
+    override fun registerCommandParser(parseCommand: (String) -> Command?) {
         registeredCommandParsers.add(parseCommand)
     }
 
