@@ -4,6 +4,7 @@ import ru.spbau.bogomolov.ast.AstNode
 import ru.spbau.bogomolov.ast.commands.*
 import ru.spbau.bogomolov.ast.utilitynodes.ExecuteNode
 import ru.spbau.bogomolov.environment.Environment
+import ru.spbau.bogomolov.parser.preprocessor.BashLikePreprocessor
 
 class BashLikeParser(private val env: Environment) : CommandLineParser {
     private fun registerCommands(commandProducer: CommandProducer) {
@@ -15,10 +16,10 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         commandProducer.registerCommandParser { parseExitFromString(it) }
     }
 
-    override fun parse(input: String): AstNode {
+    override fun parse(input: String): List<AstNode> {
+        val preprocessor = BashLikePreprocessor(env)
         val commandProducer = BashLikeProducer()
         registerCommands(commandProducer)
-
-        return commandProducer.parseFromString(input) ?: ExecuteNode(input)
+        return preprocessor.process(input).map { commandProducer.parseFromString(it) ?: ExecuteNode(it) }
     }
 }
