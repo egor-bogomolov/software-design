@@ -1,4 +1,4 @@
-package ru.spbau.bogomolov
+package ru.spbau.bogomolov.executor
 
 import ru.spbau.bogomolov.parser.BashLikeParser
 

@@ -1,5 +1,7 @@
 package ru.spbau.bogomolov
 
+import ru.spbau.bogomolov.executor.CommandLineExecutor
+
 /**
  * Wrapper around ... using console input and output.
  */

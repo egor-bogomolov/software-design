@@ -1,4 +1,4 @@
-package ru.spbau.bogomolov
+package ru.spbau.bogomolov.executor
 
 /**
  * Takes string that should be interpreted and returns results of interpretation
