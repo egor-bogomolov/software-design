@@ -1,4 +1,4 @@
-package ru.spbau.bogomolov.commands
+package ru.spbau.bogomolov.ast.commands
 
 import ru.spbau.bogomolov.ast.AstNode
 

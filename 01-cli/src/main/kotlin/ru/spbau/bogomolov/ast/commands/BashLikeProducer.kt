@@ -1,4 +1,4 @@
-package ru.spbau.bogomolov.commands
+package ru.spbau.bogomolov.ast.commands
 
 class BashLikeProducer : CommandProducer {
 
@@ -8,9 +8,9 @@ class BashLikeProducer : CommandProducer {
         registeredCommandParsers.add(parseCommand)
     }
 
-    override fun parseFromString(string: String): Command? {
+    override fun parseFromString(input: String): Command? {
         registeredCommandParsers.forEach { parseCommand ->
-            parseCommand(string)?.let {
+            parseCommand(input)?.let {
                 return it
             }
         }

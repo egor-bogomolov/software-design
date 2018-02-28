@@ -5,6 +5,7 @@ package ru.spbau.bogomolov.ast
  */
 interface AstNode {
     fun invoke()
+    fun invoke(input: String)
     fun getOutput(): String
     fun getErrors(): String
 }
