@@ -1,11 +1,15 @@
 package ru.spbau.bogomolov.ast.commands
 
-fun parsePwdFromString(string: String): Pwd? =
-        if (string == "pwd" || string.startsWith("pwd ")) Pwd()
-        else null
-
+fun parsePwdFromString(string: String): Pwd? {
+    val words = string.toWords()
+    if (words.isEmpty() || words[0] != "pwd") {
+        return null
+    }
+    return Pwd()
+}
 
 class Pwd : Command {
+    override fun shouldExit() = false
 
     private var output: String = ""
     private var errors: String = ""

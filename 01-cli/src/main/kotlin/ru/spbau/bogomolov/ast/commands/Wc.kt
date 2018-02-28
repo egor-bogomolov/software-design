@@ -12,6 +12,7 @@ fun parseWcFromString(string: String): Wc? {
 }
 
 class Wc(args: List<AstNode>) : CommandWithArguments(args, "cat") {
+    override fun shouldExit() = false
 
     private var bytes = 0
     private var words = 0

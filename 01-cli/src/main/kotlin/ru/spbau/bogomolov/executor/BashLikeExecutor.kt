@@ -7,6 +7,6 @@ class BashLikeExecutor : CommandLineExecutor {
         val parser = BashLikeParser()
         val root = parser.parse(input)
         root.invoke()
-        return ExecutionResult(false, root.getOutput(), root.getErrors())
+        return ExecutionResult(root.shouldExit(), root.getOutput(), root.getErrors())
     }
 }

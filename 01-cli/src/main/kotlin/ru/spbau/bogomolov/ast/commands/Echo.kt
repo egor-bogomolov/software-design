@@ -11,6 +11,8 @@ fun parseEchoFromString(string: String): Echo? {
 }
 
 class Echo(args: List<AstNode>) : CommandWithArguments(args, "echo") {
+    override fun shouldExit() = false
+
     override fun consumeInput(input: String) {
         appendToOutput(input + "\n")
     }

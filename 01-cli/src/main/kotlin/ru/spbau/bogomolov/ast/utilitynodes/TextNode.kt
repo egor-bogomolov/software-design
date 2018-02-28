@@ -6,6 +6,8 @@ class TextNode(private val text: String) : AstNode {
 
     private var output = text
 
+    override fun shouldExit() = false
+
     override fun invoke() {
         output = text
     }

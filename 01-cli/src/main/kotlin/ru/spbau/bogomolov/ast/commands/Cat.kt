@@ -12,6 +12,8 @@ fun parseCatFromString(string: String): Cat? {
 }
 
 class Cat(args: List<AstNode>) : CommandWithArguments(args, "cat") {
+    override fun shouldExit() = false
+
     override fun consumeArgument(arg: String) {
         appendToOutput(File(arg).inputStream().bufferedReader().use { it.readText() } + "\n")
     }
