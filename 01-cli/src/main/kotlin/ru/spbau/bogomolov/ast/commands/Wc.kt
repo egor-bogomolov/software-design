@@ -38,7 +38,7 @@ class Wc(args: List<AstNode>) : CommandWithArguments(args, "cat") {
     }
 
     override fun consumeInput(input: String) {
-        lines = 1
+        lines = input.count { it == '\n' } + if (input.last() == '\n') 0 else 1
         words += input.toWords().size
         bytes += input.length
         setOutput("$lines $words $bytes\n")

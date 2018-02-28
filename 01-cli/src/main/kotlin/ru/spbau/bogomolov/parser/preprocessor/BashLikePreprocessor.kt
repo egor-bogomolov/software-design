@@ -26,6 +26,7 @@ class BashLikePreprocessor(private val env: Environment) : Preprocessor {
                 currentString += input[i]
             }
         }
+        result.add(currentString.trim())
         return result
     }
 

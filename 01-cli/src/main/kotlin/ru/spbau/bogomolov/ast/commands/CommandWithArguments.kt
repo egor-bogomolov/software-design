@@ -57,6 +57,6 @@ abstract class CommandWithArguments(
     }
 
     protected fun setOutput(string: String) {
-
+        output = string
     }
 }
