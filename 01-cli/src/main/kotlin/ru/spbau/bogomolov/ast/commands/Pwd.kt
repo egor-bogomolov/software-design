@@ -1,5 +1,8 @@
 package ru.spbau.bogomolov.ast.commands
 
+/**
+ * If first word in string is 'pwd' then parsing is successful.
+ */
 fun parsePwdFromString(string: String): Pwd? {
     val words = string.toWords()
     if (words.isEmpty() || words[0] != "pwd") {
@@ -8,6 +11,9 @@ fun parsePwdFromString(string: String): Pwd? {
     return Pwd()
 }
 
+/**
+ * pwd command. Doesn't take arguments. Prints path to current directory.
+ */
 class Pwd : Command {
     override fun shouldExit() = false
 

@@ -3,7 +3,7 @@ package ru.spbau.bogomolov
 import ru.spbau.bogomolov.executor.CommandLineExecutor
 
 /**
- * Wrapper around ... using console input and output.
+ * Wrapper around an executor implementing console app interface.
  */
 class CommandLineInterpretator {
     fun run(executor: CommandLineExecutor) {

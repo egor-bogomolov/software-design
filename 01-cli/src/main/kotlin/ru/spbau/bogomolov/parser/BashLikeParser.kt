@@ -6,6 +6,9 @@ import ru.spbau.bogomolov.ast.utilitynodes.ExecuteNode
 import ru.spbau.bogomolov.environment.Environment
 import ru.spbau.bogomolov.parser.preprocessor.BashLikePreprocessor
 
+/**
+ * Parser for bash-like language.
+ */
 class BashLikeParser(private val env: Environment) : CommandLineParser {
     private fun registerCommands(commandProducer: CommandProducer) {
         commandProducer.registerCommandParser { parseAssignmentFromString(env, it) }
@@ -16,6 +19,9 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         commandProducer.registerCommandParser { parseExitFromString(it) }
     }
 
+    /**
+     * Transforms text into list of AST nodes that correspond to different commands separated with pipes.
+     */
     override fun parse(input: String): List<AstNode> {
         val preprocessor = BashLikePreprocessor(env)
         val commandProducer = BashLikeProducer()

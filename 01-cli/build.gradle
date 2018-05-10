@@ -2,7 +2,7 @@ group 'ru.spbau.bogomolov.cli'
 version '1.0'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.41'
 
     repositories {
         mavenCentral()

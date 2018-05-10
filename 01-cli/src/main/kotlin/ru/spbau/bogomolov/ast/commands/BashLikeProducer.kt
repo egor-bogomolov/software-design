@@ -1,5 +1,8 @@
 package ru.spbau.bogomolov.ast.commands
 
+/**
+ * Implementation of CommandProducer for bash-like language.
+ */
 class BashLikeProducer : CommandProducer {
 
     private val registeredCommandParsers = mutableListOf<(String) -> Command?>()

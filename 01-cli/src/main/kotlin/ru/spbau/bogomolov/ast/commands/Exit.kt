@@ -1,5 +1,8 @@
 package ru.spbau.bogomolov.ast.commands
 
+/**
+ * If first word in string is 'exit' then parsing is successful.
+ */
 fun parseExitFromString(string: String): Exit? {
     val words = string.toWords()
     if (words.isEmpty() || words[0] != "exit") {
@@ -8,6 +11,9 @@ fun parseExitFromString(string: String): Exit? {
     return Exit()
 }
 
+/**
+ * exit command. Doesn't take arguments. Attempts to finish execution.
+ */
 class Exit : Command {
     override fun shouldExit() = true
 

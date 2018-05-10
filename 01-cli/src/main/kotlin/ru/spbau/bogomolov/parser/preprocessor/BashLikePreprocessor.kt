@@ -2,7 +2,9 @@ package ru.spbau.bogomolov.parser.preprocessor
 
 import ru.spbau.bogomolov.environment.Environment
 
-
+/**
+ * Finds pipes and splits string at their positions. Then performs substitution of variables on each string.
+ */
 class BashLikePreprocessor(private val env: Environment) : Preprocessor {
 
     private fun splitPipes(input: String): List<String> {

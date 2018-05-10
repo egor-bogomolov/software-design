@@ -3,6 +3,9 @@ package ru.spbau.bogomolov.ast.commands
 import ru.spbau.bogomolov.ast.AstNode
 import java.io.File
 
+/**
+ * If first word in string is 'wc' then parsing is successful.
+ */
 fun parseWcFromString(string: String): Wc? {
     val words = string.toWords()
     if (words.isEmpty() || words[0] != "wc") {
@@ -11,7 +14,11 @@ fun parseWcFromString(string: String): Wc? {
     return Wc(words.subList(1, words.size).toTextNodes())
 }
 
-class Wc(args: List<AstNode>) : CommandWithArguments(args, "cat") {
+/**
+ * wc command. Arguments are treated as names of files. For each size in bytes, words and lines is computed.
+ * If input is provided then arguments are ignored and size is computed for input.
+ */
+class Wc(args: List<AstNode>) : CommandWithArguments(args, "wc") {
     override fun shouldExit() = false
 
     private var bytes = 0

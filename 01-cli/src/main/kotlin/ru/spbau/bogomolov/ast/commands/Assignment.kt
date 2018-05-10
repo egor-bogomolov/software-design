@@ -2,6 +2,10 @@ package ru.spbau.bogomolov.ast.commands
 
 import ru.spbau.bogomolov.environment.Environment
 
+/**
+ * If string starts with latin letters and digits (without any space symbols) followed by '=' then parsing is
+ * successful and everything before '=' sign is treated as name of a variable.
+ */
 fun parseAssignmentFromString(env: Environment, string: String): Assignment? {
     val trimmedString = string.trim()
     val endOfWord = trimmedString.indexOfFirst { !(it in 'a'..'z' || it in 'A'..'Z' || it in '0'..'9') }

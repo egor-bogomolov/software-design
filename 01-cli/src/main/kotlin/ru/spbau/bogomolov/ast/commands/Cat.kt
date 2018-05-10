@@ -3,6 +3,9 @@ package ru.spbau.bogomolov.ast.commands
 import ru.spbau.bogomolov.ast.AstNode
 import java.io.File
 
+/**
+ * If first word in string is 'cat' then parsing is successful.
+ */
 fun parseCatFromString(string: String): Cat? {
     val words = string.toWords()
     if (words.isEmpty() || words[0] != "cat") {
@@ -11,6 +14,10 @@ fun parseCatFromString(string: String): Cat? {
     return Cat(words.subList(1, words.size).toTextNodes())
 }
 
+/**
+ * echo command. Arguments are treated as names of files and their content is printed. If input is provided then
+ * arguments are ignored and input is printed.
+ */
 class Cat(args: List<AstNode>) : CommandWithArguments(args, "cat") {
     override fun shouldExit() = false
 

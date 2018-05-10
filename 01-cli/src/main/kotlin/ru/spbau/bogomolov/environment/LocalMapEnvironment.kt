@@ -1,5 +1,8 @@
 package ru.spbau.bogomolov.environment
 
+/**
+ * Implementation of Environment wrapping a Map in local storage.
+ */
 class LocalMapEnvironment : Environment {
 
     private val map = mutableMapOf<String, String>()

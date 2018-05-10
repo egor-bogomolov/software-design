@@ -2,6 +2,9 @@ package ru.spbau.bogomolov.ast.utilitynodes
 
 import ru.spbau.bogomolov.ast.AstNode
 
+/**
+ * Content is treated as bash command that should be executed via normal bash.
+ */
 class ExecuteNode(text: String) : AstNode {
     override fun shouldExit() = false
 
