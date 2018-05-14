@@ -9,16 +9,16 @@ import ru.spbau.bogomolov.parser.BashLikeParser
 class BashLikeExecutor(private val env: Environment) : CommandLineExecutor {
     override fun processString(input: String): ExecutionResult {
         val parser = BashLikeParser(env)
-        val commands = parser.parse(input)
-        if (commands.isEmpty()) {
+        val roots = parser.parse(input)
+        if (roots.isEmpty()) {
             return ExecutionResult(false, "", "")
         }
-        var lastCommand = commands.first()
-        commands.first().invoke()
-        commands.subList(1, commands.size).forEach { command ->
-            command.invoke(lastCommand.getOutput())
-            lastCommand = command
+        var lastRoot = roots.first()
+        roots.first().invoke()
+        roots.subList(1, roots.size).forEach { root ->
+            root.invoke(lastRoot.getOutput())
+            lastRoot = root
         }
-        return ExecutionResult(lastCommand.shouldExit(), lastCommand.getOutput(), lastCommand.getErrors())
+        return ExecutionResult(lastRoot.shouldExit(), lastRoot.getOutput(), lastRoot.getErrors())
     }
 }

@@ -11,8 +11,13 @@ class CommandLineInterpretator {
             val line = readLine() ?: break
             val result = executor.processString(line)
             if (result.shouldExit) break
-            println(result.output)
-            System.err.println(result.error)
+
+            if (result.output.isNotEmpty()) {
+                println(result.output)
+            }
+            if (result.error.isNotEmpty()) {
+                System.err.println(result.error)
+            }
         }
     }
 }
