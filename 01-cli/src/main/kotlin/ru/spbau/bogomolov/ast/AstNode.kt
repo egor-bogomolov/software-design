@@ -8,16 +8,19 @@ interface AstNode {
     fun shouldExit(): Boolean
 
     /**
-     * Invokes node with no input. Input here means output of another command passed via pipe.
+     * Invokes node. After invocation output and error-output are stored and available via getOutput and getErrors.
      */
     fun invoke()
-
-    /**
-     * Invokes node with input. Most of the time it means that node's arguments will be ignored.
-     */
-    fun invoke(input: String)
 
     fun getOutput(): String
 
     fun getErrors(): String
+
+    /**
+     * true if node is a straight argument of command in call (
+     * Example:
+     * echo "123" -> "123" is a straight argument
+     * echo "123" | wc -> echo isn't a straight argument for wc
+     */
+    fun isArgument(): Boolean
 }

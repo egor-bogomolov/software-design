@@ -3,27 +3,25 @@ package ru.spbau.bogomolov.ast.commands
 import ru.spbau.bogomolov.ast.AstNode
 
 /**
- * If first word in string is 'exit' then parsing is successful.
+ * If first token is 'echo' then parsing is successful, other tokens are treated as arguments.
+ * If inputNodes are provided then they replace arguments.
  */
-fun parseEchoFromString(string: String): Echo? {
-    val words = string.toWords()
-    if (words.isEmpty() || words[0] != "echo") {
+fun parseEchoFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Echo? {
+    if (tokens.isEmpty() || tokens[0] != "echo") {
         return null
     }
-    return Echo(words.subList(1, words.size).toTextNodes())
+    inputNodes?.let { return Echo(inputNodes) }
+    return Echo(tokens.subList(1, tokens.size).toTextNodes())
 }
 
 /**
- * echo command. Prints arguments, one per line. If input is provided then arguments are ignored and input is printed.
+ * echo command. Prints arguments' output, one per line.
  */
-class Echo(args: List<AstNode>) : CommandWithArguments(args, "echo") {
+class Echo(args: List<AstNode>) : Command(args, "echo", false, false) {
+
+    override fun consumeArgument(arg: AstNode) {
+        appendToOutput(arg.getOutput() + "\n")
+    }
+
     override fun shouldExit() = false
-
-    override fun consumeInput(input: String) {
-        appendToOutput(input + "\n")
-    }
-
-    override fun consumeArgument(arg: String) {
-        appendToOutput(arg + "\n")
-    }
 }

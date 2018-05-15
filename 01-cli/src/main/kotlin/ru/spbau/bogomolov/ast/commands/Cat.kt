@@ -4,28 +4,32 @@ import ru.spbau.bogomolov.ast.AstNode
 import java.io.File
 
 /**
- * If first word in string is 'cat' then parsing is successful.
+ * If first token is 'cat' then parsing is successful, other tokens are treated as arguments.
+ * If inputNodes are provided then they replace arguments.
  */
-fun parseCatFromString(string: String): Cat? {
-    val words = string.toWords()
-    if (words.isEmpty() || words[0] != "cat") {
+fun parseCatFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Cat? {
+    if (tokens.isEmpty() || tokens[0] != "cat") {
         return null
     }
-    return Cat(words.subList(1, words.size).toTextNodes())
+    inputNodes?.let { return Cat(inputNodes) }
+    return Cat(tokens.subList(1, tokens.size).toTextNodes())
 }
 
 /**
- * echo command. Arguments are treated as names of files and their content is printed. If input is provided then
- * arguments are ignored and input is printed.
+ * echo command. Arguments are treated as names of files and their content is printed. If input-arg is provided then
+ * its output printed.
  */
-class Cat(args: List<AstNode>) : CommandWithArguments(args, "cat") {
+class Cat(args: List<AstNode>) : Command(args, "cat", true, false) {
+
+    override fun consumeArgument(arg: AstNode) {
+        val input = arg.getOutput()
+        if (arg.isArgument()) {
+            appendToOutput(File(input).inputStream().bufferedReader().use { it.readText() } + "\n")
+        } else {
+            appendToOutput(input + "\n")
+        }
+    }
+
     override fun shouldExit() = false
 
-    override fun consumeArgument(arg: String) {
-        appendToOutput(File(arg).inputStream().bufferedReader().use { it.readText() } + "\n")
-    }
-
-    override fun consumeInput(input: String) {
-        appendToOutput(input + "\n")
-    }
 }

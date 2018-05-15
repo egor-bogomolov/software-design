@@ -1,11 +1,12 @@
 package ru.spbau.bogomolov.ast.commands
 
+import ru.spbau.bogomolov.ast.AstNode
+
 /**
- * If first word in string is 'pwd' then parsing is successful.
+ * If first token is 'pwd' then parsing is successful.
  */
-fun parsePwdFromString(string: String): Pwd? {
-    val words = string.toWords()
-    if (words.isEmpty() || words[0] != "pwd") {
+fun parsePwdFromTokens(tokens: List<String>): Pwd? {
+    if (tokens.isEmpty() || tokens[0] != "pwd") {
         return null
     }
     return Pwd()
@@ -14,21 +15,13 @@ fun parsePwdFromString(string: String): Pwd? {
 /**
  * pwd command. Doesn't take arguments. Prints path to current directory.
  */
-class Pwd : Command {
+class Pwd : Command(emptyList(), "pwd", false, false) {
+
+    override fun consumeArgument(arg: AstNode) {}
+
     override fun shouldExit() = false
 
-    private var output: String = ""
-    private var errors: String = ""
-
     override fun invoke() {
-        output = System.getProperty("user.dir") + "\n"
+        setOutput(System.getProperty("user.dir") + "\n")
     }
-
-    override fun invoke(input: String) {
-        invoke()
-    }
-
-    override fun getOutput(): String = output
-
-    override fun getErrors(): String = errors
 }

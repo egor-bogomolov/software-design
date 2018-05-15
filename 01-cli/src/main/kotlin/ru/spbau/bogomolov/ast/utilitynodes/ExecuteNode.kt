@@ -8,12 +8,14 @@ import java.io.BufferedReader
 /**
  * Content is treated as bash command that should be executed via normal bash.
  */
-class ExecuteNode(private val text: String) : AstNode {
+class ExecuteNode(private val tokens: List<String>) : AstNode {
+
+    override fun isArgument() = false
 
     private var output: String = ""
     private var errors: String = ""
 
-    fun reset() {
+    private fun reset() {
         output = ""
         errors = ""
     }
@@ -21,15 +23,12 @@ class ExecuteNode(private val text: String) : AstNode {
     override fun shouldExit() = false
 
     override fun invoke() {
-        this.invoke(text)
-    }
-
-    override fun invoke(input: String) {
+        reset()
         val outputBuffer = StringBuffer()
-
+        val text = tokens.joinToString(separator = " ")
         val p: Process
         try {
-            p = Runtime.getRuntime().exec(input)
+            p = Runtime.getRuntime().exec(text)
             p.waitFor()
             val reader = BufferedReader(InputStreamReader(p.inputStream))
 
