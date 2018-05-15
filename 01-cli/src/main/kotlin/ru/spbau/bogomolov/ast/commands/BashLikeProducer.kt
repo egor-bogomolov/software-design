@@ -7,7 +7,7 @@ import ru.spbau.bogomolov.ast.AstNode
  */
 class BashLikeProducer : CommandProducer {
 
-    private val registeredCommandParsers = mutableListOf<(List<String>, List<AstNode>?) -> Command?>()
+    internal val registeredCommandParsers = mutableListOf<(List<String>, List<AstNode>?) -> Command?>()
 
     override fun registerCommandParser(parseCommand: (List<String>, List<AstNode>?) -> Command?) {
         registeredCommandParsers.add(parseCommand)

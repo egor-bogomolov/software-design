@@ -102,7 +102,7 @@ class BashLikeParserTest {
                 CaseSubstitution("\$$key1", val1),
                 CaseSubstitution("\$$key2", val2),
                 CaseSubstitution("\$$key3", valEmpty),
-                CaseSubstitution("aaaa\$$key1 aaaa", "aaaa$val1 aaaa")
+                CaseSubstitution("aaaa\$${key1} aaaa", "aaaa${val1} aaaa")
         )
 
         for (case in cases) {
