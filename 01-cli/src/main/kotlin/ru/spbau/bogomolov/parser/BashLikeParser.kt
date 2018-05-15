@@ -49,7 +49,7 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         return topRoot
     }
 
-    private fun splitTokensByPipes(tokens: List<String>): List<List<String>> {
+    internal fun splitTokensByPipes(tokens: List<String>): List<List<String>> {
         val result = mutableListOf<List<String>>()
         var last = mutableListOf<String>()
         for (token in tokens) {
@@ -60,11 +60,11 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
                 last.add(token)
             }
         }
-        if (last.isNotEmpty()) result.add(last)
+        result.add(last)
         return result
     }
 
-    private fun splitIntoTokens(input: String): List<String> {
+    internal fun splitIntoTokens(input: String): List<String> {
         val tokens = mutableListOf<String>()
         var inDoubleQuotes = false
         var inSingleQuotes = false
@@ -118,7 +118,7 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         return tokens.filter { s -> s.isNotEmpty() }
     }
 
-    private fun substitution(input: String): String {
+    internal fun substitution(input: String): String {
         var result = ""
         var currentName = ""
         var inSubstitution = false
@@ -127,6 +127,7 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
                 if (!(input[i] in 'a'..'z' || input[i] in 'A'..'Z' || input[i] in '0'..'9')) {
                     inSubstitution = false
                     result += env.getValue(currentName)
+                    result += input[i]
                 } else {
                     currentName += input[i]
                 }
