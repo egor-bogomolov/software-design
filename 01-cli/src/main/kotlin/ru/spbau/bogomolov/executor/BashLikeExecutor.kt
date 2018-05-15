@@ -11,6 +11,9 @@ class BashLikeExecutor(private val env: Environment) : CommandLineExecutor {
 
     override fun processString(input: String) = processString(input, BashLikeParser(env))
 
+    /**
+     * Second version of function introduced to make mock-testing easier.
+     */
     internal fun processString(input: String, parser: CommandLineParser): ExecutionResult {
         val root = parser.parse(input) ?: return ExecutionResult(false, "", "")
         root.invoke()
