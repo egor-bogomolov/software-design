@@ -11,7 +11,7 @@ fun parseEchoFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Echo?
         return null
     }
     inputNodes?.let { return Echo(inputNodes) }
-    return Echo(tokens.subList(1, tokens.size).toTextNodes())
+    return Echo(tokens.subList(1, tokens.size).toTextNodes(true))
 }
 
 /**

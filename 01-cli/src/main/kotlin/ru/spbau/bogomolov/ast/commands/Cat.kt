@@ -12,7 +12,7 @@ fun parseCatFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Cat? {
         return null
     }
     inputNodes?.let { return Cat(inputNodes) }
-    return Cat(tokens.subList(1, tokens.size).toTextNodes())
+    return Cat(tokens.subList(1, tokens.size).toTextNodes(true))
 }
 
 /**

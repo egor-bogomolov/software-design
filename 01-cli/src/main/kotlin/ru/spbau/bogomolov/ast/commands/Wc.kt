@@ -12,7 +12,7 @@ fun parseWcFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Wc? {
         return null
     }
     inputNodes?.let { Wc(inputNodes) }
-    return Wc(tokens.subList(1, tokens.size).toTextNodes())
+    return Wc(tokens.subList(1, tokens.size).toTextNodes(true))
 }
 
 /**
