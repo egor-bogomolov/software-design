@@ -24,7 +24,6 @@ class Echo(args: List<AstNode>) : CommandWithArguments(args, "echo") {
     }
 
     override fun consumeArgument(arg: String) {
-        print(arg)
         appendToOutput(arg + "\n")
     }
 }

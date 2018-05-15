@@ -39,9 +39,13 @@ class BashLikePreprocessor(private val env: Environment) : Preprocessor {
         var currentName = ""
         var inSubstitution = false
         for (i in 0 until input.length) {
-            if (inSubstitution && !(input[i] in 'a'..'z' || input[i] in 'A'..'Z' || input[i] in '0'..'9')) {
-                inSubstitution = false
-                result += env.getValue(currentName)
+            if (inSubstitution) {
+                if (!(input[i] in 'a'..'z' || input[i] in 'A'..'Z' || input[i] in '0'..'9')) {
+                    inSubstitution = false
+                    result += env.getValue(currentName)
+                } else {
+                    currentName += input[i]
+                }
             }
             if (input[i] == '"') {
                 if (inDoubleQuotes) inDoubleQuotes = false
