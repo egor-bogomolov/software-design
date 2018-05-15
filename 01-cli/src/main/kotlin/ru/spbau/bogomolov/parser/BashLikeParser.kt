@@ -38,7 +38,6 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         registerCommands(commandProducer)
 
         val tokenSets = splitTokensByPipes(splitIntoTokens(input))
-
         var topRoot: AstNode? = null
         for (tokenSet in tokenSets) {
             topRoot = if (topRoot == null) {
@@ -52,11 +51,11 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
 
     private fun splitTokensByPipes(tokens: List<String>): List<List<String>> {
         val result = mutableListOf<List<String>>()
-        val last = mutableListOf<String>()
+        var last = mutableListOf<String>()
         for (token in tokens) {
             if (token == "|") {
                 result.add(last)
-                last.clear()
+                last = mutableListOf()
             } else {
                 last.add(token)
             }

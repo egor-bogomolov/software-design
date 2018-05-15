@@ -11,7 +11,7 @@ fun parseWcFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Wc? {
     if (tokens.isEmpty() || tokens[0] != "wc") {
         return null
     }
-    inputNodes?.let { Wc(inputNodes) }
+    inputNodes?.let { return Wc(inputNodes) }
     return Wc(tokens.subList(1, tokens.size).toTextNodes(true))
 }
 
