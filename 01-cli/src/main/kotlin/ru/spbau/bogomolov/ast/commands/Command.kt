@@ -70,5 +70,9 @@ abstract class Command(
         output = string
     }
 
+    protected fun appendToErrors(string: String) {
+        errors += string
+    }
+
     override fun isArgument() = isArg
 }

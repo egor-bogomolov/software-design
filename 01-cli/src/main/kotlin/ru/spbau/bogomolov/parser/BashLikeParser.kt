@@ -28,6 +28,9 @@ class BashLikeParser(private val env: Environment) : CommandLineParser {
         commandProducer.registerCommandParser { tokens, _ ->
             parseExitFromTokens(tokens)
         }
+        commandProducer.registerCommandParser { tokens, inputNodes ->
+            parseGrepFromTokens(tokens, inputNodes)
+        }
     }
 
     /**
