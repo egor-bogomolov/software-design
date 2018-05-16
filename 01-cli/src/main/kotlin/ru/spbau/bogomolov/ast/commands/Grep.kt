@@ -7,7 +7,7 @@ import java.io.File
 
 /**
  * If first token is 'grep' then parsing is successful, other tokens are treated as arguments.
- * If inputNodes are provided then they replace arguments.
+ * If inputNodes are provided then they are appended to arguments list.
  */
 fun parseGrepFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Grep? {
     if (tokens.isEmpty() || tokens[0] != "grep") {
@@ -20,7 +20,9 @@ fun parseGrepFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Grep?
 }
 
 /**
- *
+ * Finds occurrences of pattern (can be regex) in file or text.
+ * If source is provided in arguments then it's treated as filename.
+ * If source is passed via pipe then it's treated as plain text.
  */
 class Grep(args: List<AstNode>) : Command(args, "grep", true, false) {
 
@@ -100,7 +102,7 @@ class Grep(args: List<AstNode>) : Command(args, "grep", true, false) {
     override fun shouldExit() = false
 }
 
-class GrepArgs(parser: ArgParser) {
+private class GrepArgs(parser: ArgParser) {
     val ignoreCase by parser.flagging("-i", help = "Make search case-insensitive")
 
     val wholeWords by parser.flagging("-w",
