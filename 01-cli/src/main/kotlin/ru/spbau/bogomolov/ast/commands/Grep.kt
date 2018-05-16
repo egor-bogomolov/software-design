@@ -25,8 +25,10 @@ fun parseGrepFromTokens(tokens: List<String>, inputNodes: List<AstNode>?): Grep?
  * If source is passed via pipe then it's treated as plain text.
  */
 class Grep(args: List<AstNode>) : Command(args, "grep", true, false) {
+    companion object {
+        internal const val separationLine = "--------------"
+    }
 
-    private val separationLine = "--------------"
     private var hasInput = false
     private var argStrings = mutableListOf<String>()
 
