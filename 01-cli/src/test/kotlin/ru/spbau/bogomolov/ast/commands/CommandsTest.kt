@@ -266,7 +266,4 @@ class CommandsTest {
         grep.invoke()
         assertEquals(getGrepLines(listOf(3, -1, 5)), grep.getOutput())
     }
-
-
-
 }
