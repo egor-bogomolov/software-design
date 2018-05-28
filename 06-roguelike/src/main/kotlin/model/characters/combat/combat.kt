@@ -1,5 +1,6 @@
 package model.characters.combat
 
+import model.characters.items.Item
 import kotlin.math.max
 import kotlin.math.min
 

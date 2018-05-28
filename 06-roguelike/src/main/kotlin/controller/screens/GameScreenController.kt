@@ -7,6 +7,7 @@ import view.GameView
 import InvalidArgumentException
 import model.characters.combat.applyCombatResults
 import model.characters.combat.combat
+import model.characters.items.randomDrop
 
 internal class GameScreenController(
         val view: GameView,
@@ -35,6 +36,7 @@ internal class GameScreenController(
                             if (occupant.isDead()) {
                                 state.removeEnemy(occupant)
                                 state.getPlayer().moveTo(nextPosition)
+                                randomDrop()?.let { state.getPlayer().addItem(it) }
                             }
                         }
                         view.getMapLayer().draw(state)

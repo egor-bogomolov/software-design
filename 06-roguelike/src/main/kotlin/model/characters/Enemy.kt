@@ -25,8 +25,8 @@ class Enemy(
 
     override fun isDead() = hp <= 0
 
-    override fun reduceHp(hp: Int) {
-        this.hp -= hp
+    override fun addHp(hp: Int) {
+        this.hp += hp
     }
 
     override fun moveTo(position: ObjectPosition) {

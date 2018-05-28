@@ -6,5 +6,6 @@ interface CombatCharacter {
     fun getMaxHp(): Int
     fun getHp(): Int
     fun isDead(): Boolean
-    fun reduceHp(hp: Int)
+    fun reduceHp(hp: Int) = addHp(-hp)
+    fun addHp(hp: Int)
 }

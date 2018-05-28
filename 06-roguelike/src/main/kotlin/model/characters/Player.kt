@@ -2,6 +2,8 @@ package model.characters
 
 import model.ObjectPosition
 import model.characters.combat.CombatCharacter
+import model.characters.items.Item
+import ItemNotExist
 
 class Player(
         private var position: ObjectPosition
@@ -25,8 +27,8 @@ class Player(
 
     override fun isDead() = hp <= 0
 
-    override fun reduceHp(hp: Int) {
-        this.hp -= hp
+    override fun addHp(hp: Int) {
+        this.hp += hp
     }
 
     override fun getPosition() = position
@@ -35,4 +37,22 @@ class Player(
         this.position = position
     }
 
+    private val items = mutableListOf<Item>()
+    private val equippedItems = mutableListOf<Item>()
+
+    fun getItems() = items
+
+    fun isEquipped(item: Item) = item in equippedItems
+
+    fun equip(item: Item) {
+        if (!(item in items)) {
+            throw ItemNotExist(item)
+        }
+        equippedItems.removeIf { it::class == item::class }
+        equippedItems.add(item)
+    }
+
+    fun addItem(item: Item) {
+        items.add(item)
+    }
 }
