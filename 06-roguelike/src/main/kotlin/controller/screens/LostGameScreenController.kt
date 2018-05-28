@@ -2,6 +2,7 @@ package controller.screens
 
 import model.GameState
 import org.codetome.zircon.api.input.Input
+import org.codetome.zircon.api.input.InputType
 import view.GameView
 
 internal class LostGameScreenController(
@@ -9,6 +10,19 @@ internal class LostGameScreenController(
         val state: GameState
 ) : ScreenController {
     override fun accept(input: Input): ActiveScreen {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (input.isKeyStroke()) {
+            val stroke = input.asKeyStroke()
+            when(stroke.getInputType()) {
+                InputType.Character -> when(stroke.getCharacter()) {
+                    'Q', 'q' -> {
+                        view.finish()
+                        return Finished
+                    }
+                    else -> {}
+                }
+                else -> {}
+            }
+        }
+        return LostScreen
     }
 }

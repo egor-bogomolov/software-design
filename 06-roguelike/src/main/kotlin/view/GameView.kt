@@ -41,7 +41,7 @@ class GameView(
     private val panelLayer =
             PanelLayerView(terminal, Size(mapVisibleWidth, PANEL_ROWS), Position.of(0, mapVisibleHeight))
     private val lostGameLayer =
-            LostGameLayerView(terminal, Size(10, 10), Position.of(mapVisibleWidth / 2, mapVisibleHeight / 2))
+            LostGameLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
 
     init {
         terminal.onInput(Consumer { input ->

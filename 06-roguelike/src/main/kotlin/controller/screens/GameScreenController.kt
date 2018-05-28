@@ -5,6 +5,8 @@ import org.codetome.zircon.api.input.Input
 import org.codetome.zircon.api.input.InputType
 import view.GameView
 import InvalidArgumentException
+import model.characters.applyCombatResults
+import model.characters.combat
 
 internal class GameScreenController(
         val view: GameView,
@@ -19,7 +21,22 @@ internal class GameScreenController(
                     val direction = getDirection(stroke.getInputType())
                     val nextPosition = state.getPlayer().getPosition().move(direction)
                     if (state.getMap().isPassableAt(nextPosition)) {
-                        state.getPlayer().moveTo(nextPosition)
+                        val occupant = state.getOccupant(nextPosition)
+                        if (occupant == null) {
+                            state.getPlayer().moveTo(nextPosition)
+                        } else {
+                            val combatResult = combat(state.getPlayer(), occupant)
+                            applyCombatResults(state.getPlayer(), occupant, combatResult)
+                            if (state.getPlayer().isDead()) {
+                                view.getPanelLayer().draw(state)
+                                view.getLostGameLayer().draw(state)
+                                return LostScreen
+                            }
+                            if (occupant.isDead()) {
+                                state.removeEnemy(occupant)
+                                state.getPlayer().moveTo(nextPosition)
+                            }
+                        }
                         view.getMapLayer().draw(state)
                         view.getPanelLayer().draw(state)
                     }

@@ -37,9 +37,9 @@ internal class PanelLayerView(
     }
 
     private fun drawPlayerInfo(state: GameState, layer: Layer) {
-        layer.putText("HP: ${state.getPlayer().hp}/${state.getPlayer().maxHp}", Position.of(0, 1))
-        layer.putText("Armor: ${state.getPlayer().armor}", Position.of(size.columns / 3, 1))
-        layer.putText("Attack:${state.getPlayer().attack}", Position.of(size.columns / 3 * 2, 1))
+        layer.putText("HP: ${state.getPlayer().getHp()}/${state.getPlayer().getMaxHp()}", Position.of(0, 1))
+        layer.putText("Armor: ${state.getPlayer().getArmor()}", Position.of(size.columns / 3, 1))
+        layer.putText("Attack:${state.getPlayer().getArmor()}", Position.of(size.columns / 3 * 2, 1))
     }
 
     private fun drawButtons(layer: Layer) {
