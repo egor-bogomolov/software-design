@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.codetome.zircon:zircon:2017.4.0-RELEASE"
 }
 
 compileKotlin {
