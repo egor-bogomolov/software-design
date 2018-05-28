@@ -1,6 +1,7 @@
 package model.characters
 
 import model.ObjectPosition
+import model.characters.combat.CombatCharacter
 
 class Player(
         private var position: ObjectPosition
@@ -33,4 +34,5 @@ class Player(
     override fun moveTo(position: ObjectPosition) {
         this.position = position
     }
+
 }

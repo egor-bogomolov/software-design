@@ -1,4 +1,4 @@
-package model.characters
+package model.characters.combat
 
 interface CombatCharacter {
     fun getArmor(): Int

@@ -1,6 +1,7 @@
 package model.characters
 
 import model.ObjectPosition
+import model.characters.combat.CombatCharacter
 
 class Enemy(
         private var position: ObjectPosition

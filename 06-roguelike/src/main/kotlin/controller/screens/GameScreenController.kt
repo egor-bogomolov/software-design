@@ -5,8 +5,8 @@ import org.codetome.zircon.api.input.Input
 import org.codetome.zircon.api.input.InputType
 import view.GameView
 import InvalidArgumentException
-import model.characters.applyCombatResults
-import model.characters.combat
+import model.characters.combat.applyCombatResults
+import model.characters.combat.combat
 
 internal class GameScreenController(
         val view: GameView,

@@ -1,4 +1,4 @@
-package model.characters
+package model.characters.combat
 
 import kotlin.math.max
 import kotlin.math.min
