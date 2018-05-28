@@ -7,11 +7,13 @@ class GameMap(
             generateEmptyMap(h, w)
         }
 ) {
+
     private val map = generateMap(width, height)
 
     fun getObjectAt(row: Int, column: Int) = map.elementAt(row).elementAt(column)
 
     fun isPassableAt(row: Int, column: Int) = getObjectAt(row, column).isPassable()
+
 }
 
 private fun generateEmptyMap(height: Int, width: Int) = Array(height, { row ->
