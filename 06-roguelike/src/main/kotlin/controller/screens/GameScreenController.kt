@@ -21,6 +21,7 @@ internal class GameScreenController(
                     if (state.getMap().isPassableAt(nextPosition)) {
                         state.getPlayer().moveTo(nextPosition)
                         view.getMapLayer().draw(state)
+                        view.getPanelLayer().draw(state)
                     }
                     return GameScreen
                 }

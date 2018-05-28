@@ -9,7 +9,7 @@ import org.codetome.zircon.api.color.ANSITextColor
 import org.codetome.zircon.api.builder.TextCharacterBuilder
 import org.codetome.zircon.api.builder.TextImageBuilder
 import org.codetome.zircon.api.builder.LayerBuilder
-
+import org.codetome.zircon.api.graphics.Layer
 
 
 internal class PanelLayerView(
@@ -17,24 +17,28 @@ internal class PanelLayerView(
         override val size: Size,
         override val offset: Position
 ): LayerView {
+    private var layer: Layer? = null
 
     override fun draw(state: GameState) {
-        val layer1 = LayerBuilder.newBuilder()
-                .textImage(TextImageBuilder.newBuilder()
-                        .filler(TextCharacterBuilder.newBuilder()
-                                .foregroundColor(ANSITextColor.RED)
-                                .backgroundColor(TextColorFactory.TRANSPARENT)
-                                .character('+')
-                                .build())
-                        .size(size)
-                        .build())
+        layer?.let { terminal.removeLayer(it) }
+
+        val newLayer = LayerBuilder.newBuilder()
+                .size(size)
                 .offset(offset)
                 .build()
 
-        terminal.pushLayer(layer1)
+        drawPlayerInfo(state, newLayer)
 
+        terminal.pushLayer(newLayer)
         terminal.flush()
 
+        layer = newLayer
+    }
+
+    private fun drawPlayerInfo(state: GameState, layer: Layer) {
+        layer.putText("HP: ${state.getPlayer().hp}/${state.getPlayer().maxHp}", Position.of(0, 1))
+        layer.putText("Armor: ${state.getPlayer().armor}", Position.of(size.columns / 3, 1))
+        layer.putText("Attack:${state.getPlayer().attack}", Position.of(size.columns / 3 * 2, 1))
     }
 
 }

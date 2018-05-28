@@ -5,8 +5,8 @@ import model.characters.Player
 import model.map.GameMap
 
 class GameState private constructor(
-        private val worldHeight: Int,
-        private val worldWidth: Int,
+        val worldHeight: Int,
+        val worldWidth: Int,
         private val map: GameMap,
         private val player: Player,
         private val enemies: List<Enemy>

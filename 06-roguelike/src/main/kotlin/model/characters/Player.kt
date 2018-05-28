@@ -8,6 +8,8 @@ class Player(
 
     var maxHp = 100
     var hp = 100
+    var attack = 1
+    var armor = 0
 
     override fun getPosition() = position
 

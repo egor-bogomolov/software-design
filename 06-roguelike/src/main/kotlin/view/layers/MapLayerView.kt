@@ -36,9 +36,10 @@ internal class MapLayerView(
                 .offset(offset)
                 .build()
 
-        drawMap(state, newLayer)
-        drawPlayer(state, newLayer)
-        drawEnemies(state, newLayer)
+        val drawingOffset = computeDrawingOffset(state)
+        drawMap(state, newLayer, drawingOffset)
+        drawPlayer(state, newLayer, drawingOffset)
+        drawEnemies(state, newLayer, drawingOffset)
 
         terminal.pushLayer(newLayer)
         terminal.flush()
@@ -46,24 +47,56 @@ internal class MapLayerView(
         layer = newLayer
     }
 
-    private fun drawMap(state: GameState, layer: Layer) {
+    private fun drawMap(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         for (col in 0 until size.columns) {
             for (row in 0 until size.rows) {
                 layer.setCharacterAt(
                         Position.of(col, row),
-                        state.getMap().getObjectAt(ObjectPosition(col, row)).asCharacter()
+                        state.getMap().getObjectAt(ObjectPosition(col, row) + drawingOffset).asCharacter()
                 )
             }
         }
     }
 
-    private fun drawPlayer(state: GameState, layer: Layer) {
-        layer.setCharacterAt(state.getPlayer().getPosition().toPosition(), PLAYER_SYMBOL)
+    private fun drawPlayer(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
+        layer.setCharacterAt((state.getPlayer().getPosition() - drawingOffset).toPosition(), PLAYER_SYMBOL)
     }
 
-    private fun drawEnemies(state: GameState, layer: Layer) {
+    private fun drawEnemies(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         state.getEnemies().forEach {
-            layer.setCharacterAt(it.getPosition().toPosition(), ENEMY_SYMBOL)
+            val position = it.getPosition() - drawingOffset
+            if (position.isValid()) {
+                layer.setCharacterAt(position.toPosition(), ENEMY_SYMBOL)
+            }
         }
     }
+
+    private fun computeDrawingOffset(state: GameState): ObjectPosition {
+        val position = state.getPlayer().getPosition()
+        val halfWidth = size.columns / 2
+        val halfHeight = size.rows / 2
+        val offsetColumns = if (position.column < halfWidth) {
+            0
+        } else if (position.column + halfWidth < state.worldWidth) {
+            position.column - halfWidth
+        } else {
+            state.worldWidth - size.columns
+        }
+
+        val offsetRows = if (position.row < halfHeight) {
+            0
+        } else if (position.row + halfHeight < state.worldHeight) {
+            position.row - halfHeight
+        } else {
+            state.worldHeight - size.rows
+        }
+        return ObjectPosition(offsetColumns, offsetRows)
+    }
+
+    private fun ObjectPosition.isValid() =
+            0 <= column &&
+            column < size.columns &&
+            0 <= row &&
+            row < size.rows
+
 }
