@@ -1,5 +1,6 @@
 package view
 
+import model.ActiveScreen
 import model.GameState
 import org.codetome.zircon.api.Size
 import org.codetome.zircon.api.builder.TerminalBuilder
@@ -42,12 +43,13 @@ class GameView(
         listeners.add(listener)
     }
 
-    fun draw(state: GameState) {
+    fun refresh(state: GameState, activeScreen: ActiveScreen) {
         for (col in 0 until mapVisibleWidth) {
             for (row in 0 until mapVisibleHeight) {
                 terminal.putCharacter(state.map.getObjectAt(row, col).asCharacter())
             }
         }
+        terminal.flush()
     }
 
 }
