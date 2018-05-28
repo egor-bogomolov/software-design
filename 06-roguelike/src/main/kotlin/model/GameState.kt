@@ -5,24 +5,29 @@ import model.characters.Player
 import model.map.GameMap
 
 class GameState private constructor(
-        val worldHeight: Int,
-        val worldWidth: Int,
-        val map: GameMap,
-        val player: Player,
-        val enemies: List<Enemy>
+        private val worldHeight: Int,
+        private val worldWidth: Int,
+        private val map: GameMap,
+        private val player: Player,
+        private val enemies: List<Enemy>
 ) {
 
 
     companion object {
         fun createNewGame(height: Int, width: Int): GameState {
-            val player = Player(height / 2, width / 2)
+            val player = Player(ObjectPosition(height / 2, width / 2))
             val enemies = listOf<Enemy>(
-                    Enemy(1, 1), Enemy(4, 1), Enemy(height - 2, width - 2)
+                    Enemy(ObjectPosition(1, 1)), Enemy(ObjectPosition(4, 1))
             )
             return GameState(height, width, GameMap(height, width), player, enemies)
         }
     }
 
+    fun getMap() = map
 
+    fun getPlayerPosition() = player.position
 
+    fun movePlayer(direction: Direction) {
+        player.move(direction)
+    }
 }

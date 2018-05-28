@@ -1,8 +1,9 @@
 package model.characters
 
+import model.ObjectPosition
+
 class Enemy(
-        override var row: Int,
-        override var column: Int
+        override var position: ObjectPosition
 ): BasicCharacter {
     var maxHp = 100
     var hp = 100

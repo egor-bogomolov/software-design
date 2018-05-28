@@ -2,10 +2,15 @@ package view
 
 import model.ActiveScreen
 import model.GameState
+import org.codetome.zircon.api.Position
 import org.codetome.zircon.api.Size
 import org.codetome.zircon.api.builder.TerminalBuilder
 import org.codetome.zircon.api.input.Input
 import org.codetome.zircon.api.resource.CP437TilesetResource
+import view.layers.LayerView
+import view.layers.LostGameLayerView
+import view.layers.MapLayerView
+import view.layers.PanelLayerView
 import java.util.function.Consumer
 
 class GameView(
@@ -19,6 +24,7 @@ class GameView(
 
     companion object {
         private const val GAME_TITLE = "Awesome Roguelike"
+        private const val PANEL_ROWS = 3
 
         fun createGameView(mapVisibleHeight: Int, mapVisibleWidth: Int) =
                 GameView(mapVisibleHeight, mapVisibleWidth)
@@ -26,12 +32,18 @@ class GameView(
 
     private val terminal = TerminalBuilder
             .newBuilder()
-            .initialTerminalSize(Size.of(mapVisibleWidth, mapVisibleHeight))
+            .initialTerminalSize(Size.of(mapVisibleWidth, mapVisibleHeight + PANEL_ROWS))
             .font(CP437TilesetResource.WANDERLUST_16X16.toFont())
             .title(GAME_TITLE)
             .build()
 
     private val listeners = mutableListOf<Listener>()
+    private val mapLayer =
+            MapLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
+    private val panelLayer =
+            PanelLayerView(terminal, Size(mapVisibleWidth, PANEL_ROWS), Position.of(0, mapVisibleHeight))
+    private val lostGameLayer =
+            LostGameLayerView(terminal, Size(10, 10), Position.of(mapVisibleWidth / 2, mapVisibleHeight / 2))
 
     init {
         terminal.onInput(Consumer { input ->
@@ -43,13 +55,10 @@ class GameView(
         listeners.add(listener)
     }
 
-    fun refresh(state: GameState, activeScreen: ActiveScreen) {
-        for (col in 0 until mapVisibleWidth) {
-            for (row in 0 until mapVisibleHeight) {
-                terminal.putCharacter(state.map.getObjectAt(row, col).asCharacter())
-            }
-        }
-        terminal.flush()
-    }
+    fun getMapLayer(): LayerView = mapLayer
+
+    fun getPanelLayer(): LayerView = panelLayer
+
+    fun getLostGameLayer(): LayerView = lostGameLayer
 
 }

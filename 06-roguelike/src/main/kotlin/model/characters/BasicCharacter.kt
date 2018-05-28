@@ -1,13 +1,12 @@
 package model.characters
 
 import model.Direction
+import model.ObjectPosition
 
 interface BasicCharacter {
-    var row: Int
-    var column: Int
+    var position: ObjectPosition
 
     fun move(direction: Direction) {
-        row += direction.dRow
-        column += direction.dColumn
+        position = ObjectPosition( position.column + direction.dColumn, position.row + direction.dRow)
     }
 }
