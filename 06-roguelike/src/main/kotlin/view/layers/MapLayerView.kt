@@ -38,6 +38,7 @@ internal class MapLayerView(
 
         drawMap(state, newLayer)
         drawPlayer(state, newLayer)
+        drawEnemies(state, newLayer)
 
         terminal.pushLayer(newLayer)
         terminal.flush()
@@ -57,7 +58,12 @@ internal class MapLayerView(
     }
 
     private fun drawPlayer(state: GameState, layer: Layer) {
-        println(state.getPlayer().getPosition().column)
         layer.setCharacterAt(state.getPlayer().getPosition().toPosition(), PLAYER_SYMBOL)
+    }
+
+    private fun drawEnemies(state: GameState, layer: Layer) {
+        state.getEnemies().forEach {
+            layer.setCharacterAt(it.getPosition().toPosition(), ENEMY_SYMBOL)
+        }
     }
 }

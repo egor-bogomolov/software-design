@@ -18,8 +18,6 @@ internal class GameScreenController(
                 InputType.ArrowDown, InputType.ArrowLeft, InputType.ArrowUp, InputType.ArrowRight -> {
                     val direction = getDirection(stroke.getInputType())
                     val nextPosition = state.getPlayer().getPosition().move(direction)
-                    println(nextPosition.column)
-                    println(nextPosition.row)
                     if (state.getMap().isPassableAt(nextPosition)) {
                         state.getPlayer().moveTo(nextPosition)
                         view.getMapLayer().draw(state)

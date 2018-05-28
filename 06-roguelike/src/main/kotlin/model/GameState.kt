@@ -26,4 +26,6 @@ class GameState private constructor(
     fun getMap() = map
 
     fun getPlayer() = player
+
+    fun getEnemies() = enemies
 }
