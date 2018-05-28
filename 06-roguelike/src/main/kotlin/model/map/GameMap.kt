@@ -1,5 +1,7 @@
 package model.map
 
+import model.ObjectPosition
+
 class GameMap(
         height: Int,
         width: Int,
@@ -10,9 +12,9 @@ class GameMap(
 
     private val map = generateMap(width, height)
 
-    fun getObjectAt(row: Int, column: Int) = map.elementAt(row).elementAt(column)
+    fun getObjectAt(position: ObjectPosition) = map.elementAt(position.row).elementAt(position.column)
 
-    fun isPassableAt(row: Int, column: Int) = getObjectAt(row, column).isPassable()
+    fun isPassableAt(position: ObjectPosition) = getObjectAt(position).isPassable()
 
 }
 

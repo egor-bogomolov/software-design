@@ -1,0 +1,1 @@
+class InvalidArgumentException(message: String) : Exception(message)

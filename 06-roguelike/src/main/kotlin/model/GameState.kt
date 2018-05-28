@@ -25,9 +25,5 @@ class GameState private constructor(
 
     fun getMap() = map
 
-    fun getPlayerPosition() = player.position
-
-    fun movePlayer(direction: Direction) {
-        player.move(direction)
-    }
+    fun getPlayer() = player
 }

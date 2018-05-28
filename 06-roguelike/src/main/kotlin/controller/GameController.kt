@@ -1,5 +1,6 @@
 package controller
 
+import controller.screens.*
 import model.*
 import org.codetome.zircon.api.input.Input
 import org.codetome.zircon.api.input.InputType
@@ -13,7 +14,12 @@ class GameController(
     companion object {
         fun createGameController(view: GameView, state: GameState) =
                 GameController(view, state)
+
     }
+
+    private var activeScreen: ActiveScreen = GameScreen
+    private val gameScreenController = GameScreenController(view, state)
+    private val lostGameScreenController = LostGameScreenController(view, state)
 
     init {
         view.registerListener(this)
@@ -22,36 +28,10 @@ class GameController(
     }
 
     override fun onInputAction(input: Input) {
-        if (input.isKeyStroke()) {
-            val stroke = input.asKeyStroke()
-            when(stroke.getInputType()) {
-                InputType.ArrowDown -> {
-                    println("Down")
-                    state.movePlayer(DirectionBottom)
-                    view.getMapLayer().draw(state)
-                }
-                InputType.ArrowLeft -> {
-                    println("Left")
-                    state.movePlayer(DirectionLeft)
-                    view.getMapLayer().draw(state)
-                }
-                InputType.ArrowUp -> {
-                    state.movePlayer(DirectionUp)
-                    view.getMapLayer().draw(state)
-                }
-                InputType.ArrowRight -> {
-                    state.movePlayer(DirectionRight)
-                    view.getMapLayer().draw(state)
-                }
-                InputType.Character -> when(stroke.getCharacter()) {
-                    'I', 'i' -> {
-                        println("I")
-                    }
-                    'Q', 'q' -> {}
-                    else -> {}
-                }
-                else -> {}
-            }
+        activeScreen = when(activeScreen) {
+            GameScreen -> gameScreenController.accept(input)
+            LostScreen -> lostGameScreenController.accept(input)
+            Finished -> Finished
         }
     }
 }

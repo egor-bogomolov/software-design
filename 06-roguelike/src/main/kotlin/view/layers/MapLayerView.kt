@@ -1,6 +1,7 @@
 package view.layers
 
 import model.GameState
+import model.ObjectPosition
 import org.codetome.zircon.api.Position
 import org.codetome.zircon.api.Size
 import org.codetome.zircon.api.Symbols
@@ -47,12 +48,16 @@ internal class MapLayerView(
     private fun drawMap(state: GameState, layer: Layer) {
         for (col in 0 until size.columns) {
             for (row in 0 until size.rows) {
-                layer.setCharacterAt(Position.of(col, row), state.getMap().getObjectAt(row, col).asCharacter())
+                layer.setCharacterAt(
+                        Position.of(col, row),
+                        state.getMap().getObjectAt(ObjectPosition(col, row)).asCharacter()
+                )
             }
         }
     }
 
     private fun drawPlayer(state: GameState, layer: Layer) {
-        layer.setCharacterAt(state.getPlayerPosition().toPosition(), PLAYER_SYMBOL)
+        println(state.getPlayer().getPosition().column)
+        layer.setCharacterAt(state.getPlayer().getPosition().toPosition(), PLAYER_SYMBOL)
     }
 }

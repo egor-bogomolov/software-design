@@ -1,7 +1,5 @@
 package view
 
-import model.ActiveScreen
-import model.GameState
 import org.codetome.zircon.api.Position
 import org.codetome.zircon.api.Size
 import org.codetome.zircon.api.builder.TerminalBuilder
@@ -61,4 +59,7 @@ class GameView(
 
     fun getLostGameLayer(): LayerView = lostGameLayer
 
+    fun finish() {
+        terminal.close()
+    }
 }
