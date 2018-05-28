@@ -10,7 +10,7 @@ class GameMap(
         }
 ) {
 
-    private val map = generateMap(width, height)
+    private val map = generateMap(height, width)
 
     fun getObjectAt(position: ObjectPosition) = map.elementAt(position.row).elementAt(position.column)
 
@@ -31,3 +31,4 @@ private fun generateEmptyMap(height: Int, width: Int) = Array(height, { row ->
         })
     }
 })
+

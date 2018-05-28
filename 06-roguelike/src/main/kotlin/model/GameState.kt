@@ -15,7 +15,7 @@ class GameState private constructor(
 
     companion object {
         fun createNewGame(height: Int, width: Int): GameState {
-            val player = Player(ObjectPosition(height / 2, width / 2))
+            val player = Player(ObjectPosition(width / 2, height / 2))
             val enemies = listOf<Enemy>(
                     Enemy(ObjectPosition(1, 1)), Enemy(ObjectPosition(4, 1))
             )

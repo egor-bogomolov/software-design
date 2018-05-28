@@ -22,7 +22,7 @@ class GameView(
 
     companion object {
         private const val GAME_TITLE = "Awesome Roguelike"
-        private const val PANEL_ROWS = 3
+        private const val PANEL_ROWS = 4
 
         fun createGameView(mapVisibleHeight: Int, mapVisibleWidth: Int) =
                 GameView(mapVisibleHeight, mapVisibleWidth)

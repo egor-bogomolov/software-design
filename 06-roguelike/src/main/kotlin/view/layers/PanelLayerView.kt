@@ -28,6 +28,7 @@ internal class PanelLayerView(
                 .build()
 
         drawPlayerInfo(state, newLayer)
+        drawButtons(newLayer)
 
         terminal.pushLayer(newLayer)
         terminal.flush()
@@ -39,6 +40,11 @@ internal class PanelLayerView(
         layer.putText("HP: ${state.getPlayer().hp}/${state.getPlayer().maxHp}", Position.of(0, 1))
         layer.putText("Armor: ${state.getPlayer().armor}", Position.of(size.columns / 3, 1))
         layer.putText("Attack:${state.getPlayer().attack}", Position.of(size.columns / 3 * 2, 1))
+    }
+
+    private fun drawButtons(layer: Layer) {
+        layer.putText("[I]nventory", Position.of(size.columns / 3, 2))
+        layer.putText("[Q]uit", Position.of(size.columns / 3 * 2, 2))
     }
 
 }
