@@ -22,8 +22,8 @@ internal class MapLayerView(
 ) : LayerView {
 
     companion object {
-        private const val PLAYER_SYMBOL = Symbols.MALE
-        private const val ENEMY_SYMBOL = Symbols.FEMALE
+        private const val PLAYER_SYMBOL = Symbols.FACE_BLACK
+        private const val ENEMY_SYMBOL = Symbols.FACE_WHITE
     }
 
     private var layer: Layer? = null
@@ -62,14 +62,18 @@ internal class MapLayerView(
     }
 
     private fun drawPlayer(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
+        layer.setForegroundColor(ANSITextColor.GREEN)
         layer.setCharacterAt((state.getPlayer().getPosition() - drawingOffset).toPosition(), PLAYER_SYMBOL)
+        layer.resetColorsAndModifiers()
     }
 
     private fun drawEnemies(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         state.getEnemies().forEach {
             val position = it.getPosition() - drawingOffset
             if (position.isValid()) {
+                layer.setForegroundColor(ANSITextColor.RED)
                 layer.setCharacterAt(position.toPosition(), ENEMY_SYMBOL)
+                layer.resetColorsAndModifiers()
             }
         }
     }
