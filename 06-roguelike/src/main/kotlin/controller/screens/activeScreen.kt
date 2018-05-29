@@ -10,4 +10,4 @@ object InventoryScreen : ActiveScreen()
 
 object Finished : ActiveScreen()
 
-data class InvokationResult(val activeScreen: ActiveScreen, val hasChanged: Boolean)
+data class InvocationResult(val activeScreen: ActiveScreen, val hasChanged: Boolean)

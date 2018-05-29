@@ -10,20 +10,20 @@ internal class LostGameScreenController(
         val state: GameState
 ) : ScreenController {
 
-    override fun accept(input: Input): InvokationResult {
+    override fun accept(input: Input): InvocationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
             when(stroke.getInputType()) {
                 InputType.Character -> when(stroke.getCharacter()) {
                     'Q', 'q' -> {
-                        return InvokationResult(Finished, true)
+                        return InvocationResult(Finished, true)
                     }
                     else -> {}
                 }
                 else -> {}
             }
         }
-        return InvokationResult(LostScreen, false)
+        return InvocationResult(LostScreen, false)
     }
 
     override fun draw() {

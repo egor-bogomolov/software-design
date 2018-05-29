@@ -3,7 +3,6 @@ package controller
 import controller.screens.*
 import model.*
 import org.codetome.zircon.api.input.Input
-import org.codetome.zircon.api.input.InputType
 import view.GameView
 
 class GameController(
@@ -34,7 +33,7 @@ class GameController(
             GameScreen -> gameScreenController.accept(input)
             LostScreen -> lostGameScreenController.accept(input)
             InventoryScreen -> inventoryScreenController.accept(input)
-            Finished -> InvokationResult(Finished, true)
+            Finished -> InvocationResult(Finished, true)
         }
         if (result.hasChanged) {
             view.clearAll()

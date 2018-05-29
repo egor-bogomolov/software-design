@@ -15,7 +15,7 @@ internal class GameScreenController(
         val state: GameState
 ) : ScreenController {
 
-    override fun accept(input: Input): InvokationResult {
+    override fun accept(input: Input): InvocationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
             when(stroke.getInputType()) {
@@ -31,7 +31,7 @@ internal class GameScreenController(
                             val combatResult = combat(state.getPlayer(), occupant)
                             applyCombatResults(state.getPlayer(), occupant, combatResult)
                             if (state.getPlayer().isDead()) {
-                                return InvokationResult(LostScreen, true)
+                                return InvocationResult(LostScreen, true)
                             }
                             if (occupant.isDead()) {
                                 state.removeEnemy(occupant)
@@ -39,22 +39,22 @@ internal class GameScreenController(
                                 randomDrop()?.let { state.getPlayer().addItem(it) }
                             }
                         }
-                        return InvokationResult(GameScreen, true)
+                        return InvocationResult(GameScreen, true)
                     }
                 }
                 InputType.Character -> when(stroke.getCharacter()) {
                     'I', 'i' -> {
-                        return InvokationResult(InventoryScreen, true)
+                        return InvocationResult(InventoryScreen, true)
                     }
                     'Q', 'q' -> {
-                        return InvokationResult(Finished, true)
+                        return InvocationResult(Finished, true)
                     }
                     else -> {}
                 }
                 else -> {}
             }
         }
-        return InvokationResult(GameScreen, false)
+        return InvocationResult(GameScreen, false)
     }
 
     override fun draw() {

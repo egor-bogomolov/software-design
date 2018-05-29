@@ -1,7 +1,7 @@
 package controller
 
 import controller.screens.GameScreen
-import controller.screens.InvokationResult
+import controller.screens.InvocationResult
 import controller.screens.LostScreen
 import model.*
 import model.characters.Enemy
@@ -15,7 +15,7 @@ class EnemyController(
         val view: GameView,
         val state: GameState
 ) {
-    fun moveAllEnemies(): InvokationResult {
+    fun moveAllEnemies(): InvocationResult {
         val toDelete = mutableListOf<Enemy>()
         for (enemy in state.getEnemies()) {
             val direction = getDirection(state.getPlayer().getPosition(), enemy.getPosition())
@@ -27,7 +27,7 @@ class EnemyController(
                 val combatResult = combat(state.getPlayer(), enemy)
                 applyCombatResults(state.getPlayer(), enemy, combatResult)
                 if (state.getPlayer().isDead()) {
-                    return InvokationResult(LostScreen, true)
+                    return InvocationResult(LostScreen, true)
                 }
                 if (enemy.isDead()) {
                     toDelete.add(enemy)
@@ -40,7 +40,7 @@ class EnemyController(
         for (enemy in toDelete) {
             state.removeEnemy(enemy)
         }
-        return InvokationResult(GameScreen, true)
+        return InvocationResult(GameScreen, true)
     }
 
     private fun getDirection(playerPos: ObjectPosition, enemyPos: ObjectPosition): Direction {
