@@ -11,4 +11,5 @@ interface LayerView {
     val offset: Position
 
     fun draw(state: GameState)
+    fun clear()
 }

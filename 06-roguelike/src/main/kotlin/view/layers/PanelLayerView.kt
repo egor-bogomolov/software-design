@@ -12,16 +12,25 @@ import org.codetome.zircon.api.builder.LayerBuilder
 import org.codetome.zircon.api.graphics.Layer
 
 
-internal class PanelLayerView(
+class PanelLayerView(
         override val terminal: Terminal,
         override val size: Size,
         override val offset: Position
 ): LayerView {
+
+    private var mode: Mode = GameMode
     private var layer: Layer? = null
 
-    override fun draw(state: GameState) {
-        layer?.let { terminal.removeLayer(it) }
+    fun setMode(mode: Mode) {
+        this.mode = mode
+    }
 
+    override fun clear() {
+        layer?.let { terminal.removeLayer(it) }
+        layer = null
+    }
+
+    override fun draw(state: GameState) {
         val newLayer = LayerBuilder.newBuilder()
                 .size(size)
                 .offset(offset)
@@ -39,11 +48,11 @@ internal class PanelLayerView(
     private fun drawPlayerInfo(state: GameState, layer: Layer) {
         layer.putText("HP: ${state.getPlayer().getHp()}/${state.getPlayer().getMaxHp()}", Position.of(0, 1))
         layer.putText("Armor: ${state.getPlayer().getArmor()}", Position.of(size.columns / 3, 1))
-        layer.putText("Attack:${state.getPlayer().getArmor()}", Position.of(size.columns / 3 * 2, 1))
+        layer.putText("Attack:${state.getPlayer().getAttack()}", Position.of(size.columns / 3 * 2, 1))
     }
 
     private fun drawButtons(layer: Layer) {
-        layer.putText("[I]nventory", Position.of(size.columns / 3, 2))
+        layer.putText(mode.optionText, Position.of(size.columns / 3, 2))
         layer.putText("[Q]uit", Position.of(size.columns / 3 * 2, 2))
     }
 

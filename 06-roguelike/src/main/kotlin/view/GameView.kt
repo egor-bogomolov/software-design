@@ -5,10 +5,7 @@ import org.codetome.zircon.api.Size
 import org.codetome.zircon.api.builder.TerminalBuilder
 import org.codetome.zircon.api.input.Input
 import org.codetome.zircon.api.resource.CP437TilesetResource
-import view.layers.LayerView
-import view.layers.LostGameLayerView
-import view.layers.MapLayerView
-import view.layers.PanelLayerView
+import view.layers.*
 import java.util.function.Consumer
 
 class GameView(
@@ -42,6 +39,8 @@ class GameView(
             PanelLayerView(terminal, Size(mapVisibleWidth, PANEL_ROWS), Position.of(0, mapVisibleHeight))
     private val lostGameLayer =
             LostGameLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
+    private val inventoryLayer =
+            InventoryLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
 
     init {
         terminal.onInput(Consumer { input ->
@@ -55,11 +54,20 @@ class GameView(
 
     fun getMapLayer(): LayerView = mapLayer
 
-    fun getPanelLayer(): LayerView = panelLayer
+    fun getPanelLayer(): PanelLayerView = panelLayer
 
     fun getLostGameLayer(): LayerView = lostGameLayer
 
+    fun getInventoryLayer(): InventoryLayerView = inventoryLayer
+
     fun finish() {
         terminal.close()
+    }
+
+    fun clearAll() {
+        mapLayer.clear()
+        panelLayer.clear()
+        lostGameLayer.clear()
+        inventoryLayer.clear()
     }
 }

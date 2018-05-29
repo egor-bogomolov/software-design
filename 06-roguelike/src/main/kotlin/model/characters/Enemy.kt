@@ -2,6 +2,8 @@ package model.characters
 
 import model.ObjectPosition
 import model.characters.combat.CombatCharacter
+import kotlin.math.max
+import kotlin.math.min
 
 class Enemy(
         private var position: ObjectPosition
@@ -9,8 +11,8 @@ class Enemy(
 
     companion object {
         private const val MAX_HP = 100
-        private const val BASE_ATTACK = 99
-        private const val BASE_ARMOR = 0
+        private const val BASE_ATTACK = 1
+        private const val BASE_ARMOR = 1
     }
 
     private var hp = MAX_HP
@@ -27,6 +29,8 @@ class Enemy(
 
     override fun addHp(hp: Int) {
         this.hp += hp
+        this.hp = min(this.hp, getMaxHp())
+        this.hp = max(this.hp, 0)
     }
 
     override fun moveTo(position: ObjectPosition) {

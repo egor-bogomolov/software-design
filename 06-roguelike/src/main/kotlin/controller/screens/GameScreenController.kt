@@ -8,13 +8,14 @@ import InvalidArgumentException
 import model.characters.combat.applyCombatResults
 import model.characters.combat.combat
 import model.characters.items.randomDrop
+import view.layers.GameMode
 
 internal class GameScreenController(
         val view: GameView,
         val state: GameState
 ) : ScreenController {
 
-    override fun accept(input: Input): ActiveScreen {
+    override fun accept(input: Input): InvokationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
             when(stroke.getInputType()) {
@@ -25,13 +26,12 @@ internal class GameScreenController(
                         val occupant = state.getOccupant(nextPosition)
                         if (occupant == null) {
                             state.getPlayer().moveTo(nextPosition)
+                            state.getPlayer().addHp(1)
                         } else {
                             val combatResult = combat(state.getPlayer(), occupant)
                             applyCombatResults(state.getPlayer(), occupant, combatResult)
                             if (state.getPlayer().isDead()) {
-                                view.getPanelLayer().draw(state)
-                                view.getLostGameLayer().draw(state)
-                                return LostScreen
+                                return InvokationResult(LostScreen, true)
                             }
                             if (occupant.isDead()) {
                                 state.removeEnemy(occupant)
@@ -39,25 +39,28 @@ internal class GameScreenController(
                                 randomDrop()?.let { state.getPlayer().addItem(it) }
                             }
                         }
-                        view.getMapLayer().draw(state)
-                        view.getPanelLayer().draw(state)
+                        return InvokationResult(GameScreen, true)
                     }
-                    return GameScreen
                 }
                 InputType.Character -> when(stroke.getCharacter()) {
                     'I', 'i' -> {
-                        println("I")
+                        return InvokationResult(InventoryScreen, true)
                     }
                     'Q', 'q' -> {
-                        view.finish()
-                        return Finished
+                        return InvokationResult(Finished, true)
                     }
                     else -> {}
                 }
                 else -> {}
             }
         }
-        return GameScreen
+        return InvokationResult(GameScreen, false)
+    }
+
+    override fun draw() {
+        view.getMapLayer().draw(state)
+        view.getPanelLayer().setMode(GameMode)
+        view.getPanelLayer().draw(state)
     }
 
     private fun getDirection(inputType: InputType) = when(inputType) {

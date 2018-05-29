@@ -20,6 +20,7 @@ class GameController(
     private var activeScreen: ActiveScreen = GameScreen
     private val gameScreenController = GameScreenController(view, state)
     private val lostGameScreenController = LostGameScreenController(view, state)
+    private val inventoryScreenController = InventoryScreenController(view, state)
 
     init {
         view.registerListener(this)
@@ -28,10 +29,21 @@ class GameController(
     }
 
     override fun onInputAction(input: Input) {
-        activeScreen = when(activeScreen) {
+        val result = when(activeScreen) {
             GameScreen -> gameScreenController.accept(input)
             LostScreen -> lostGameScreenController.accept(input)
-            Finished -> Finished
+            InventoryScreen -> inventoryScreenController.accept(input)
+            Finished -> InvokationResult(Finished, true)
+        }
+        if (result.hasChanged) {
+            view.clearAll()
+            when(result.activeScreen) {
+                GameScreen -> gameScreenController.draw()
+                LostScreen -> lostGameScreenController.draw()
+                InventoryScreen -> inventoryScreenController.draw()
+                Finished -> view.finish()
+            }
+            activeScreen = result.activeScreen
         }
     }
 }

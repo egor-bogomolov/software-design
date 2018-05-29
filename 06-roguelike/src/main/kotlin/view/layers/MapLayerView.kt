@@ -28,9 +28,12 @@ internal class MapLayerView(
 
     private var layer: Layer? = null
 
-    override fun draw(state: GameState) {
+    override fun clear() {
         layer?.let { terminal.removeLayer(it) }
+        layer = null
+    }
 
+    override fun draw(state: GameState) {
         val newLayer = LayerBuilder.newBuilder()
                 .size(size)
                 .offset(offset)
