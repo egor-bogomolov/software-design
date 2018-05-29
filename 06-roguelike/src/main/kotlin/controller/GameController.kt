@@ -21,6 +21,7 @@ class GameController(
     private val gameScreenController = GameScreenController(view, state)
     private val lostGameScreenController = LostGameScreenController(view, state)
     private val inventoryScreenController = InventoryScreenController(view, state)
+    private val enemyController = EnemyController(view, state)
 
     init {
         view.registerListener(this)
@@ -38,7 +39,12 @@ class GameController(
         if (result.hasChanged) {
             view.clearAll()
             when(result.activeScreen) {
-                GameScreen -> gameScreenController.draw()
+                GameScreen -> {
+                    if (activeScreen == GameScreen) {
+                        enemyController.moveAllEnemies()
+                    }
+                    gameScreenController.draw()
+                }
                 LostScreen -> lostGameScreenController.draw()
                 InventoryScreen -> inventoryScreenController.draw()
                 Finished -> view.finish()

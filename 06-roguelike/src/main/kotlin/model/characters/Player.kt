@@ -13,7 +13,7 @@ class Player(
 
     companion object {
         private const val MAX_HP = 100
-        private const val BASE_ATTACK = 3
+        private const val BASE_ATTACK = 10
         private const val BASE_ARMOR = 0
     }
 
