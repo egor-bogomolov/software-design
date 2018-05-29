@@ -1,8 +1,9 @@
-language: java
+language: kotlin
 
 jdk:
   - oraclejdk8
 
 env:
   - PROJECT_DIR=06-roguelike
+
 before_install: cd $PROJECT_DIR
