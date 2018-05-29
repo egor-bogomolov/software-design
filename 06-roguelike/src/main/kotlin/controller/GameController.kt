@@ -29,7 +29,7 @@ class GameController(
     }
 
     override fun onInputAction(input: Input) {
-        val result = when(activeScreen) {
+        var result = when(activeScreen) {
             GameScreen -> gameScreenController.accept(input)
             LostScreen -> lostGameScreenController.accept(input)
             InventoryScreen -> inventoryScreenController.accept(input)
@@ -37,11 +37,11 @@ class GameController(
         }
         if (result.hasChanged) {
             view.clearAll()
+            if (result.activeScreen == GameScreen && activeScreen == GameScreen) {
+                result = enemyController.moveAllEnemies()
+            }
             when(result.activeScreen) {
                 GameScreen -> {
-                    if (activeScreen == GameScreen) {
-                        enemyController.moveAllEnemies()
-                    }
                     gameScreenController.draw()
                 }
                 LostScreen -> lostGameScreenController.draw()

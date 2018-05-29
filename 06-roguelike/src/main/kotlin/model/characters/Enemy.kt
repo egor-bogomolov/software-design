@@ -11,7 +11,7 @@ class Enemy(
 
     companion object {
         private const val MAX_HP = 100
-        private const val BASE_ATTACK = 1
+        private const val BASE_ATTACK = 49
         private const val BASE_ARMOR = 1
     }
 
