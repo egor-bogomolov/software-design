@@ -33,12 +33,22 @@ class EnemyController(
             if (nextPosition == state.getPlayer().getPosition()) {
                 val combatResult = combat(state.getPlayer(), enemy)
                 applyCombatResults(state.getPlayer(), enemy, combatResult)
+                state.addEventToLog(
+                        "Enemy (-${combatResult.hpReduce2} hp, ${enemy.getHp()} left) attacked " +
+                                "player (-${combatResult.hpReduce1} hp)")
                 if (state.getPlayer().isDead()) {
+                    state.addEventToLog("Player died!")
                     return InvocationResult(LostScreen, true)
                 }
                 if (enemy.isDead()) {
                     toDelete.add(enemy)
-                    randomDrop()?.let { state.getPlayer().addItem(it) }
+                    val drop = randomDrop()
+                    if (drop != null) {
+                        state.getPlayer().addItem(drop)
+                        state.addEventToLog("Enemy died and dropped ${drop.title}")
+                    } else {
+                        state.addEventToLog("Enemy died and dropped nothing")
+                    }
                 }
             } else {
                 enemy.moveTo(nextPosition)

@@ -18,6 +18,8 @@ class GameState private constructor(
 
 
     companion object {
+        private const val KEEP_LAST_LOGGED = 100;
+
         /**
          * Used instead of constructor.
          */
@@ -34,6 +36,8 @@ class GameState private constructor(
             return GameState(height, width, GameMap(height, width), player, enemies)
         }
     }
+
+    private val loggedEvents = mutableListOf<String>()
 
     /**
      * Get map.
@@ -60,5 +64,21 @@ class GameState private constructor(
      */
     fun removeEnemy(enemy: Enemy) {
         enemies.remove(enemy)
+    }
+
+    /**
+     * Get list of events.
+     */
+    fun getLog() = loggedEvents
+
+    /**
+     * Add event to the list.
+     * Only last [KEEP_LAST_LOGGED] are saved.
+     */
+    fun addEventToLog(event: String) {
+        if (loggedEvents.size == KEEP_LAST_LOGGED) {
+            loggedEvents.removeAt(0)
+        }
+        loggedEvents.add(event)
     }
 }

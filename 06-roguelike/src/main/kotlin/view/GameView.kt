@@ -27,7 +27,8 @@ class GameView private constructor(
 
     companion object {
         private const val GAME_TITLE = "Awesome Roguelike"
-        private const val PANEL_ROWS = 4
+        private const val DISPLAYED_EVENTS = 3
+        private val PANEL_ROWS = PanelLayerView.getHeight(DISPLAYED_EVENTS)
 
         /**
          * Used instead of constructor.
@@ -47,7 +48,7 @@ class GameView private constructor(
     private val mapLayer =
             MapLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
     private val panelLayer =
-            PanelLayerView(terminal, Size(mapVisibleWidth, PANEL_ROWS), Position.of(0, mapVisibleHeight))
+            PanelLayerView(terminal, Size(mapVisibleWidth, PANEL_ROWS), Position.of(0, mapVisibleHeight), DISPLAYED_EVENTS)
     private val lostGameLayer =
             LostGameLayerView(terminal, Size(mapVisibleWidth, mapVisibleHeight), Position.TOP_LEFT_CORNER)
     private val inventoryLayer =

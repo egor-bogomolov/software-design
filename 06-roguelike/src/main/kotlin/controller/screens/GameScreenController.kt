@@ -33,16 +33,27 @@ internal class GameScreenController(
                         if (occupant == null) {
                             state.getPlayer().moveTo(nextPosition)
                             state.getPlayer().addHp(1)
+                            state.addEventToLog("Player moved ${direction.name}")
                         } else {
                             val combatResult = combat(state.getPlayer(), occupant)
                             applyCombatResults(state.getPlayer(), occupant, combatResult)
+                            state.addEventToLog(
+                                    "Player (-${combatResult.hpReduce1} hp) attacked enemy " +
+                                            "(-${combatResult.hpReduce2} hp, ${occupant.getHp()} left)")
                             if (state.getPlayer().isDead()) {
+                                state.addEventToLog("Player died!")
                                 return InvocationResult(LostScreen, true)
                             }
                             if (occupant.isDead()) {
                                 state.removeEnemy(occupant)
                                 state.getPlayer().moveTo(nextPosition)
-                                randomDrop()?.let { state.getPlayer().addItem(it) }
+                                val drop = randomDrop()
+                                if (drop != null) {
+                                    state.getPlayer().addItem(drop)
+                                    state.addEventToLog("Enemy died and dropped ${drop.title}")
+                                } else {
+                                    state.addEventToLog("Enemy died and dropped nothing")
+                                }
                             }
                         }
                         return InvocationResult(GameScreen, true)
