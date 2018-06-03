@@ -5,6 +5,10 @@ import model.*
 import org.codetome.zircon.api.input.Input
 import view.GameView
 
+/**
+ * Controller that rules the game.
+ * Receives input from View via Listener.
+ */
 class GameController(
         val view: GameView,
         val state: GameState
@@ -28,6 +32,9 @@ class GameController(
         view.getPanelLayer().draw(state)
     }
 
+    /**
+     * Get input from view, pass it to current active screen and change state according to result of the action.
+     */
     override fun onInputAction(input: Input) {
         var result = when(activeScreen) {
             GameScreen -> gameScreenController.accept(input)

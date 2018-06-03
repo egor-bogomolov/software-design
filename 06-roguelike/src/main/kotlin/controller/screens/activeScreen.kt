@@ -1,5 +1,8 @@
 package controller.screens
 
+/**
+ * Current active screen.
+ */
 sealed class ActiveScreen
 
 object GameScreen : ActiveScreen()

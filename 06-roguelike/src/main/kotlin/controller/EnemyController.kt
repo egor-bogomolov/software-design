@@ -11,10 +11,17 @@ import model.characters.items.randomDrop
 import view.GameView
 import kotlin.math.abs
 
+/**
+ * Controls logic of enemies.
+ */
 class EnemyController(
         val view: GameView,
         val state: GameState
 ) {
+    /**
+     * Make one step with each enemy.
+     * Enemies move to players position if possible.
+     */
     fun moveAllEnemies(): InvocationResult {
         val toDelete = mutableListOf<Enemy>()
         for (enemy in state.getEnemies()) {

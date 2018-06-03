@@ -9,6 +9,9 @@ import org.codetome.zircon.api.graphics.Layer
 import org.codetome.zircon.api.terminal.Terminal
 import view.asCharacter
 
+/**
+ * LayerView representing inventory screen.
+ */
 class InventoryLayerView(
         override val terminal: Terminal,
         override val size: Size,
@@ -18,15 +21,24 @@ class InventoryLayerView(
     private var layer: Layer? = null
     private var selectedItemIndex = 0
 
+    /**
+     * Set index of selected item in the list.
+     */
     fun setSelectedItem(index: Int) {
         selectedItemIndex = index
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun clear() {
         layer?.let { terminal.removeLayer(it) }
         layer = null
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw(state: GameState) {
 
         val newLayer = LayerBuilder.newBuilder()
@@ -43,6 +55,9 @@ class InventoryLayerView(
         layer = newLayer
     }
 
+    /**
+     * Replace everything drawn with spaces.
+     */
     private fun clearBoard(layer: Layer) {
         for (col in 0 until size.columns) {
             for (row in 0 until size.rows) {
@@ -54,6 +69,9 @@ class InventoryLayerView(
         }
     }
 
+    /**
+     * Draw list of items.
+     */
     private fun drawItems(state: GameState, layer: Layer) {
         val items = state.getPlayer().getItems()
         var curIndex = 0

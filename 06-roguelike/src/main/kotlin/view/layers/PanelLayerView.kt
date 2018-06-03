@@ -11,7 +11,9 @@ import org.codetome.zircon.api.builder.TextImageBuilder
 import org.codetome.zircon.api.builder.LayerBuilder
 import org.codetome.zircon.api.graphics.Layer
 
-
+/**
+ * LayerView representing bottom panel with stats and buttons.
+ */
 class PanelLayerView(
         override val terminal: Terminal,
         override val size: Size,
@@ -21,15 +23,24 @@ class PanelLayerView(
     private var mode: Mode = GameMode
     private var layer: Layer? = null
 
+    /**
+     * Set current active screen.
+     */
     fun setMode(mode: Mode) {
         this.mode = mode
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun clear() {
         layer?.let { terminal.removeLayer(it) }
         layer = null
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw(state: GameState) {
         val newLayer = LayerBuilder.newBuilder()
                 .size(size)
@@ -45,12 +56,18 @@ class PanelLayerView(
         layer = newLayer
     }
 
+    /**
+     * Draw players stats.
+     */
     private fun drawPlayerInfo(state: GameState, layer: Layer) {
         layer.putText("HP: ${state.getPlayer().getHp()}/${state.getPlayer().getMaxHp()}", Position.of(0, 1))
         layer.putText("Armor: ${state.getPlayer().getArmor()}", Position.of(size.columns / 3, 1))
         layer.putText("Attack:${state.getPlayer().getAttack()}", Position.of(size.columns / 3 * 2, 1))
     }
 
+    /**
+     * Draw buttons.
+     */
     private fun drawButtons(layer: Layer) {
         layer.putText(mode.optionText, Position.of(size.columns / 3, 2))
         layer.putText("[Q]uit", Position.of(size.columns / 3 * 2, 2))

@@ -10,11 +10,17 @@ import model.characters.combat.combat
 import model.characters.items.randomDrop
 import view.layers.GameMode
 
+/**
+ * ScreenController for main game screen.
+ */
 internal class GameScreenController(
         val view: GameView,
         val state: GameState
 ) : ScreenController {
 
+    /**
+     * {@inheritDoc}
+     */
     override fun accept(input: Input): InvocationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
@@ -57,6 +63,9 @@ internal class GameScreenController(
         return InvocationResult(GameScreen, false)
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw() {
         view.getMapLayer().draw(state)
         view.getPanelLayer().setMode(GameMode)

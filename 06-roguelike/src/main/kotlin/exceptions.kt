@@ -1,5 +1,4 @@
-import model.characters.items.Item
-
+/**
+ * Thrown when invalid argument is passed to a function
+ */
 class InvalidArgumentException(message: String) : Exception(message)
-
-class ItemNotExist(item: Item) : Exception("Item '${item.title}' doesn't exist.")

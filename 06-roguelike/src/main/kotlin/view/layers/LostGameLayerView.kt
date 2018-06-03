@@ -7,6 +7,9 @@ import org.codetome.zircon.api.builder.LayerBuilder
 import org.codetome.zircon.api.graphics.Layer
 import org.codetome.zircon.api.terminal.Terminal
 
+/**
+ * LayerView representing lost game screen.
+ */
 internal class LostGameLayerView(
         override val terminal: Terminal,
         override val size: Size,
@@ -20,11 +23,17 @@ internal class LostGameLayerView(
 
     private var layer: Layer? = null
 
+    /**
+     * {@inheritDoc}
+     */
     override fun clear() {
         layer?.let { terminal.removeLayer(it) }
         layer = null
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw(state: GameState) {
         val newLayer = LayerBuilder.newBuilder()
                 .size(size)
@@ -39,6 +48,9 @@ internal class LostGameLayerView(
         layer = newLayer
     }
 
+    /**
+     * Draw text in center of the screen.
+     */
     private fun drawLostText(layer: Layer) {
         val h = size.rows / 2
         val w = (size.columns - LOST_TEXT.length) / 2

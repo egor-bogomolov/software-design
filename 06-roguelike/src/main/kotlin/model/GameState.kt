@@ -5,6 +5,9 @@ import model.characters.Player
 import model.map.GameMap
 import java.util.*
 
+/**
+ * Holds information about game state.
+ */
 class GameState private constructor(
         val worldHeight: Int,
         val worldWidth: Int,
@@ -15,6 +18,9 @@ class GameState private constructor(
 
 
     companion object {
+        /**
+         * Used instead of constructor.
+         */
         fun createNewGame(height: Int, width: Int, numEnemies: Int = 10): GameState {
             val player = Player(ObjectPosition(width / 2, height / 2))
             val enemies = mutableListOf<Enemy>()
@@ -29,14 +35,29 @@ class GameState private constructor(
         }
     }
 
+    /**
+     * Get map.
+     */
     fun getMap() = map
 
+    /**
+     * Get player.
+     */
     fun getPlayer() = player
 
+    /**
+     * Get list of enemies.
+     */
     fun getEnemies() = enemies
 
+    /**
+     * Get enemy at the position or null if there is no enemies there.
+     */
     fun getOccupant(position: ObjectPosition) = enemies.firstOrNull { it.getPosition() == position }
 
+    /**
+     * Remove enemy from list of enemies.
+     */
     fun removeEnemy(enemy: Enemy) {
         enemies.remove(enemy)
     }

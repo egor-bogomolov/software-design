@@ -15,6 +15,9 @@ import org.codetome.zircon.api.terminal.Terminal
 import view.asCharacter
 import view.toPosition
 
+/**
+ * LayerVIew representing game map.
+ */
 internal class MapLayerView(
         override val terminal: Terminal,
         override val size: Size,
@@ -28,11 +31,17 @@ internal class MapLayerView(
 
     private var layer: Layer? = null
 
+    /**
+     * {@inheritDoc}
+     */
     override fun clear() {
         layer?.let { terminal.removeLayer(it) }
         layer = null
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw(state: GameState) {
         val newLayer = LayerBuilder.newBuilder()
                 .size(size)
@@ -50,6 +59,9 @@ internal class MapLayerView(
         layer = newLayer
     }
 
+    /**
+     * Draw map with all the map objects on it.
+     */
     private fun drawMap(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         for (col in 0 until size.columns) {
             for (row in 0 until size.rows) {
@@ -61,12 +73,18 @@ internal class MapLayerView(
         }
     }
 
+    /**
+     * Draw player position.
+     */
     private fun drawPlayer(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         layer.setForegroundColor(ANSITextColor.GREEN)
         layer.setCharacterAt((state.getPlayer().getPosition() - drawingOffset).toPosition(), PLAYER_SYMBOL)
         layer.resetColorsAndModifiers()
     }
 
+    /**
+     * Draw enemies positions.
+     */
     private fun drawEnemies(state: GameState, layer: Layer, drawingOffset: ObjectPosition) {
         state.getEnemies().forEach {
             val position = it.getPosition() - drawingOffset
@@ -78,6 +96,9 @@ internal class MapLayerView(
         }
     }
 
+    /**
+     * If possible, player is drawn in center of the screen.
+     */
     private fun computeDrawingOffset(state: GameState): ObjectPosition {
         val position = state.getPlayer().getPosition()
         val halfWidth = size.columns / 2

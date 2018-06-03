@@ -3,6 +3,9 @@ package model.map
 import model.ObjectPosition
 import java.util.*
 
+/**
+ * Represents game field with obstacles.
+ */
 class GameMap(
         height: Int,
         width: Int,
@@ -13,8 +16,14 @@ class GameMap(
 
     private val map = generateMap(height, width)
 
+    /**
+     * Get map object at a position.
+     */
     fun getObjectAt(position: ObjectPosition) = map[position.row][position.column]
 
+    /**
+     * Is object at a position passable.
+     */
     fun isPassableAt(position: ObjectPosition) = getObjectAt(position).isPassable()
 
 }

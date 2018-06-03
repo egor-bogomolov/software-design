@@ -8,6 +8,9 @@ import view.GameView
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * ScreenController for inventory screen.
+ */
 class InventoryScreenController(
         val view: GameView,
         val state: GameState
@@ -15,6 +18,9 @@ class InventoryScreenController(
 
     private var selectedItemIndex = 0
 
+    /**
+     * {@inheritDoc}
+     */
     override fun accept(input: Input): InvocationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
@@ -47,6 +53,9 @@ class InventoryScreenController(
         return InvocationResult(InventoryScreen, false)
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw() {
         view.getInventoryLayer().setSelectedItem(selectedItemIndex)
         view.getInventoryLayer().draw(state)
