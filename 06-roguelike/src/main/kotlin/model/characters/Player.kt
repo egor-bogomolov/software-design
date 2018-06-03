@@ -14,9 +14,9 @@ class Player(
 ): BasicCharacter, CombatCharacter {
 
     companion object {
-        private const val MAX_HP = 100
-        private const val BASE_ATTACK = 10
-        private const val BASE_ARMOR = 0
+        internal const val MAX_HP = 100
+        internal const val BASE_ATTACK = 10
+        internal const val BASE_ARMOR = 0
     }
 
     private var hp = MAX_HP
