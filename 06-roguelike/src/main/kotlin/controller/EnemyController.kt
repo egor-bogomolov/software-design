@@ -1,7 +1,7 @@
 package controller
 
 import controller.screens.GameScreen
-import controller.screens.InvokationResult
+import controller.screens.InvocationResult
 import controller.screens.LostScreen
 import model.*
 import model.characters.Enemy
@@ -11,11 +11,18 @@ import model.characters.items.randomDrop
 import view.GameView
 import kotlin.math.abs
 
+/**
+ * Controls logic of enemies.
+ */
 class EnemyController(
         val view: GameView,
         val state: GameState
 ) {
-    fun moveAllEnemies(): InvokationResult {
+    /**
+     * Make one step with each enemy.
+     * Enemies move to players position if possible.
+     */
+    fun moveAllEnemies(): InvocationResult {
         val toDelete = mutableListOf<Enemy>()
         for (enemy in state.getEnemies()) {
             val direction = getDirection(state.getPlayer().getPosition(), enemy.getPosition())
@@ -26,12 +33,22 @@ class EnemyController(
             if (nextPosition == state.getPlayer().getPosition()) {
                 val combatResult = combat(state.getPlayer(), enemy)
                 applyCombatResults(state.getPlayer(), enemy, combatResult)
+                state.addEventToLog(
+                        "Enemy (-${combatResult.hpReduce2} hp, ${enemy.getHp()} left) attacked " +
+                                "player (-${combatResult.hpReduce1} hp)")
                 if (state.getPlayer().isDead()) {
-                    return InvokationResult(LostScreen, true)
+                    state.addEventToLog("Player died!")
+                    return InvocationResult(LostScreen, true)
                 }
                 if (enemy.isDead()) {
                     toDelete.add(enemy)
-                    randomDrop()?.let { state.getPlayer().addItem(it) }
+                    val drop = randomDrop()
+                    if (drop != null) {
+                        state.getPlayer().addItem(drop)
+                        state.addEventToLog("Enemy died and dropped ${drop.title}")
+                    } else {
+                        state.addEventToLog("Enemy died and dropped nothing")
+                    }
                 }
             } else {
                 enemy.moveTo(nextPosition)
@@ -40,7 +57,7 @@ class EnemyController(
         for (enemy in toDelete) {
             state.removeEnemy(enemy)
         }
-        return InvokationResult(GameScreen, true)
+        return InvocationResult(GameScreen, true)
     }
 
     private fun getDirection(playerPos: ObjectPosition, enemyPos: ObjectPosition): Direction {

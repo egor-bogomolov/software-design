@@ -10,12 +10,18 @@ import model.characters.combat.combat
 import model.characters.items.randomDrop
 import view.layers.GameMode
 
+/**
+ * ScreenController for main game screen.
+ */
 internal class GameScreenController(
         val view: GameView,
         val state: GameState
 ) : ScreenController {
 
-    override fun accept(input: Input): InvokationResult {
+    /**
+     * {@inheritDoc}
+     */
+    override fun accept(input: Input): InvocationResult {
         if (input.isKeyStroke()) {
             val stroke = input.asKeyStroke()
             when(stroke.getInputType()) {
@@ -27,36 +33,50 @@ internal class GameScreenController(
                         if (occupant == null) {
                             state.getPlayer().moveTo(nextPosition)
                             state.getPlayer().addHp(1)
+                            state.addEventToLog("Player moved ${direction.name}")
                         } else {
                             val combatResult = combat(state.getPlayer(), occupant)
                             applyCombatResults(state.getPlayer(), occupant, combatResult)
+                            state.addEventToLog(
+                                    "Player (-${combatResult.hpReduce1} hp) attacked enemy " +
+                                            "(-${combatResult.hpReduce2} hp, ${occupant.getHp()} left)")
                             if (state.getPlayer().isDead()) {
-                                return InvokationResult(LostScreen, true)
+                                state.addEventToLog("Player died!")
+                                return InvocationResult(LostScreen, true)
                             }
                             if (occupant.isDead()) {
                                 state.removeEnemy(occupant)
                                 state.getPlayer().moveTo(nextPosition)
-                                randomDrop()?.let { state.getPlayer().addItem(it) }
+                                val drop = randomDrop()
+                                if (drop != null) {
+                                    state.getPlayer().addItem(drop)
+                                    state.addEventToLog("Enemy died and dropped ${drop.title}")
+                                } else {
+                                    state.addEventToLog("Enemy died and dropped nothing")
+                                }
                             }
                         }
-                        return InvokationResult(GameScreen, true)
+                        return InvocationResult(GameScreen, true)
                     }
                 }
                 InputType.Character -> when(stroke.getCharacter()) {
                     'I', 'i' -> {
-                        return InvokationResult(InventoryScreen, true)
+                        return InvocationResult(InventoryScreen, true)
                     }
                     'Q', 'q' -> {
-                        return InvokationResult(Finished, true)
+                        return InvocationResult(Finished, true)
                     }
                     else -> {}
                 }
                 else -> {}
             }
         }
-        return InvokationResult(GameScreen, false)
+        return InvocationResult(GameScreen, false)
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override fun draw() {
         view.getMapLayer().draw(state)
         view.getPanelLayer().setMode(GameMode)
